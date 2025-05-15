@@ -1,39 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>My Project</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <title>Natural Language Processing -- Machine Learning</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1>My Project</h1>
-  </header>
-  <nav role="navigation" aria-label="Main navigation">
-    <ul style="list-style: none; padding: 0; display: flex; gap: 1rem;">
-      <li><a href="/index.html">Home</a></li>
-      <li><a href="/NLPArtifacts.html">NLP Artifacts</a></li>
-    </ul>
-  </nav>
-  <main>
+  <div class="container">
+    <aside class="sidebar">
+      <h1>Cameron B.</h1>
+      <nav role="navigation" aria-label="Main navigation">
+        <a href="/index.html">Home</a>
+        <a href="/NLPArtifacts.html">NLP Artifacts</a>
+      </nav>
+    </aside>
 
-    <h1>Summary</h1>
-    <p>This project investigates the effectiveness of adversarial data when training language processing models. The goal of such a project is to show how diversification of training data produces better outcomes across 
-      different test cases and that dataset artifacts present significant challenges for training purposes. We train an ELECTRA-small model on different combinations of training data to identify whether passages of text support or contradict specific claims.
-    We then see how that model performs on examples that are specifically designed to be difficult. The short-paper below details the work, and the code used to train the model and organize the data is linked at the bottom of this page.</p>
+    <main class="reader-area">
+      <h1>Natural Language Processing — Machine Learning</h1>
 
-    <h2>Embedded Project PDF</h2>
-    <iframe src="assets/NLPArtifacts.pdf" width="80%" height="600px" style="border: 1px solid #ccc;" title="NLP Artifacts PDF">
-      <p>Your browser does not support PDFs.
-         <a href="assets/NLPArtifacts.pdf">Download the PDF</a> instead.</p>
-    </iframe>
+      <h2>Summary</h2>
+      <p>
+        This project investigates the effectiveness of adversarial data when training language processing models. The goal of such a project is to show how diversification of training data produces better outcomes across 
+        different test cases and that dataset artifacts present significant challenges for training purposes. We train an ELECTRA-small model on different combinations of training data to identify whether passages of text support or contradict specific claims.
+        We then see how that model performs on examples that are specifically designed to be difficult. The short paper below details the work, and the code used to train the model and organize the data is linked at the bottom of this page.
+      </p>
 
-    
-    <h3>Related Code</h3>
-    <ul style="list-style-type: none; padding: 0;">
-      <li><a href="https://github.com/cbellamoroso/NLP-Data-Artifacts" target="_blank">Github Repository</a></li>
-    </ul>
-  </main>
+      <h2>Technical Report</h2>
+      <iframe src="assets/NLPArtifacts.pdf" width="100%" height="600px" style="border: 1px solid #ccc;" title="NLP Artifacts PDF">
+        <p>Your browser does not support PDFs.
+          <a href="assets/NLPArtifacts.pdf">Download the PDF</a> instead.
+        </p>
+      </iframe>
+
+      <h3>Related Code</h3>
+      <ul style="list-style-type: none; padding: 0;">
+        <li><a href="https://github.com/cbellamoroso/NLP-Data-Artifacts" target="_blank">GitHub Repository</a></li>
+      </ul>
+    </main>
+  </div>
 </body>
 </html>
