@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Adaptive Utility</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="topbar">
+    <h1>Adaptive Utility</h1>
+  </div>
+  <div class="container">
+    <aside class="sidebar">
+      <nav>
+        <a href="/index.html">Home</a>
+        <a href="/NLPArtifacts.html">NLP Artifacts</a>
+        <a href="/AdaptiveUtility.html">Adaptive Utility</a>
+      </nav>
+    </aside>
+    <main class="reader-area">
+      <h2>Welcome to the Economics Experiment!</h2>
+      <p> Below, you will find a 'game' where you get to strategically set your preferences for different point values. To play, simply drag each of the point values into one of the four ranking tiers (first choice is favorite, fourth is least favorite).
+      </b></b>
+      <p>Once you have ranked all the values, click the "Done Ranking" button. The game will randomly select two of the values and give you whichever you ranked as better. 
+        If you ranked them the same, one will be randomly selected, which might end up being the lower option, resulting in a missed opportunity.
+        You can then change your rankings and draw another two rewards. Watch out, though, because not all the of the points have the same odds of being selected by the computer. </p>
+
+      </p>If you dont want to play, just scroll past this to find the analysis.</p>
+    
+    </p>
+
+      <div id="game-container">
+        <div id="score">Score: 0</div>
+        <div id="missed">Missed Opportunities: 0</div>
+        <div id="dollar-values" class="drag-container"></div>
+
+        <div class="boxes">
+          <div class="rank-box" data-rank="4"><h3>Fourth Choice</h3></div>
+          <div class="rank-box" data-rank="3"><h3>Third Choice</h3></div>
+          <div class="rank-box" data-rank="2"><h3>Second Choice</h3></div>
+          <div class="rank-box" data-rank="1"><h3>First Choice</h3></div>
+        </div>
+
+        <button id="submit-button">Done Ranking</button>
+        <div id="result"></div>
+        <div id="history"></div>
+      </div>
+
+      <p>
+        I ran an experiment where I paid subjects to play this game over many rounds, the results of which can be found here:
+        <a href="https://digitalcommons.lmu.edu/honors-thesis/240/" target="_blank">Adaptive Utility -- Digital Commons</a>. By incentivizing players based on their score we can start to 
+        see how they adapt their preferences over time. Specifically, we want to know what it takes for people to start changing their initial strategies and how well they can identify the correct rankings based on a sampling distribution.</p>
+
+      <b>Optimal Play</b>
+
+      <p>The core winning strategy of the game requires two things: </p>
+        
+        <ol>
+          <li>Rank all values in order so that no small value is ranked higher than a large value</li>
+          <li>Avoid ties as much as possible while following (1)</li>
+        </ol>
+
+      <p> The first rule is pretty trivial and almost all players follow it immediately. The second is harder because no matter how you organize your preferences
+        it is still possible for a tie to occur. Moreover, the player is not told which values are more likely to be selected. If you played the game, or if you just click the "Done Ranking" button a few times, you will likely observe that the larger point values get selected with much higher frequency.
+      </p>
+
+
+      <p>Since ties occur when two values are ranked the same, the goal then should be to spread out frequently selected values between different ranking tiers. We don't want to go too far, though, because a tie between 60 and 610 could result in a much greater loss than a tie between 60 and 110, for example.</p>
+    
+      <p> As it happens, if you know the exact probabilities, the ranking shown below gets you the most points on average:</p>
+      <div class="optimal-ranking-graphic" style="display: flex; gap: 20px; margin-bottom: 30px;">
+        <div class="optimal-rank-box" style="flex:1; min-width:120px; background:#e3f6fc; border:2px solid #3498db; border-radius:8px; padding:10px;">
+          <h4 style="margin-top:0;">Fourth Choice</h4>
+          <div>
+        <span class="opt-val" style="display:inline-block;margin:3px 6px 3px 0;padding:5px 10px;background:#3498db;color:#fff;border-radius:4px;">60</span>
+        <span class="opt-val" style="display:inline-block;margin:3px 6px 3px 0;padding:5px 10px;background:#3498db;color:#fff;border-radius:4px;">110</span>
+        <span class="opt-val" style="display:inline-block;margin:3px 6px 3px 0;padding:5px 10px;background:#3498db;color:#fff;border-radius:4px;">160</span>
+        <span class="opt-val" style="display:inline-block;margin:3px 6px 3px 0;padding:5px 10px;background:#3498db;color:#fff;border-radius:4px;">210</span>
+        <span class="opt-val" style="display:inline-block;margin:3px 6px 3px 0;padding:5px 10px;background:#3498db;color:#fff;border-radius:4px;">260</span>
+        <span class="opt-val" style="display:inline-block;margin:3px 6px 3px 0;padding:5px 10px;background:#3498db;color:#fff;border-radius:4px;">310</span>
+        <span class="opt-val" style="display:inline-block;margin:3px 6px 3px 0;padding:5px 10px;background:#3498db;color:#fff;border-radius:4px;">360</span>
+        <span class="opt-val" style="display:inline-block;margin:3px 6px 3px 0;padding:5px 10px;background:#3498db;color:#fff;border-radius:4px;">410</span>        <span class="opt-val" style="display:inline-block;margin:3px 6px 3px 0;padding:5px 10px;background:#3498db;color:#fff;border-radius:4px;">360</span>
+        <span class="opt-val" style="display:inline-block;margin:3px 6px 3px 0;padding:5px 10px;background:#3498db;color:#fff;border-radius:4px;">460</span>
+        <span class="opt-val" style="display:inline-block;margin:3px 6px 3px 0;padding:5px 10px;background:#3498db;color:#fff;border-radius:4px;">510</span>
+        <span class="opt-val" style="display:inline-block;margin:3px 6px 3px 0;padding:5px 10px;background:#3498db;color:#fff;border-radius:4px;">560</span>
+          </div>
+        </div>
+        <div class="optimal-rank-box" style="flex:1; min-width:120px; background:#e3f6fc; border:2px solid #3498db; border-radius:8px; padding:10px;">
+          <h4 style="margin-top:0;">Third Choice</h4>
+          <div>
+        <span class="opt-val" style="display:inline-block;margin:3px 6px 3px 0;padding:5px 10px;background:#2980b9;color:#fff;border-radius:4px;">610</span>
+        <span class="opt-val" style="display:inline-block;margin:3px 6px 3px 0;padding:5px 10px;background:#2980b9;color:#fff;border-radius:4px;">660</span>
+        <span class="opt-val" style="display:inline-block;margin:3px 6px 3px 0;padding:5px 10px;background:#2980b9;color:#fff;border-radius:4px;">710</span>
+          </div>
+        </div>
+        <div class="optimal-rank-box" style="flex:1; min-width:120px; background:#e3f6fc; border:2px solid #3498db; border-radius:8px; padding:10px;">
+          <h4 style="margin-top:0;">Second Choice</h4>
+          <div>
+        <span class="opt-val" style="display:inline-block;margin:3px 6px 3px 0;padding:5px 10px;background:#2471a3;color:#fff;border-radius:4px;">760</span>
+        <span class="opt-val" style="display:inline-block;margin:3px 6px 3px 0;padding:5px 10px;background:#2471a3;color:#fff;border-radius:4px;">860</span>
+          </div>
+        </div>
+        <div class="optimal-rank-box" style="flex:1; min-width:120px; background:#e3f6fc; border:2px solid #3498db; border-radius:8px; padding:10px;">
+          <h4 style="margin-top:0;">First Choice</h4>
+          <div>
+        <span class="opt-val" style="display:inline-block;margin:3px 6px 3px 0;padding:5px 10px;background:#154360;color:#fff;border-radius:4px;">910</span>
+        <span class="opt-val" style="display:inline-block;margin:3px 6px 3px 0;padding:5px 10px;background:#154360;color:#fff;border-radius:4px;">960</span>
+          </div>
+        </div>
+      </div>
+
+      <p> The rankings shown above may seem suprising due to how many values are clustered in just one box, but the probability of those values getting selected is so low that 
+        we don't really need to worry about them too much. Yes, we might get a big loss every now and then, but that gets washed out in our small gains every round in the higher, more common values. </p>
+
+
+      <p> <b>Finding the optimal strategy with incomplete knowledge</b></p>
+
+      <p> The above ranking is extremely slanted to one side; it is very unlikely for a person to just stumble upon this to start. Instead, players must find a winning strategy via trial and error by collecting information over the course of each round. </p>
+
+      <p> Let us first imagine if we were to program a computer play this game. One option would be to have it estimate a probability distribution based on past results in each round, then calculate all possible outcomes based on that distribution. It could then define an entirely new strategy each round as needed.  
+        Another possible method is to employ some kind of machine-learning algorithm that updates its rankings whenever it makes a mistake. This algorithm might focus on just the cut-off points and shift one or two values up or down as it learns.</p>
+
+      <p> Both of the above options can eventually converge to the optimal strategy, but neither describe exactly how a human can play the game. Most of us cannot calculate probability distributions in our head, nor do we tend to follow 
+        exact algorithms. Moreover, we may consider attributes of the game other than long term average earnings. 
+      </p>
+
+      <b> How do people play?</b>
+
+      <p>When I ran this expirement on 65 subjects, I found that three broad categories of player types existed, but with lots of variation within each category.
+
+        <ol>
+          <li>Players who identify a strategy early and make changes slowly</li>
+          <li>Players who changed their strategies frequently round to round</li>
+          <li>Players who couldn't figure out rule (1) in their rankings by the end of the experiment (~9%)</li>
+        </ol>
+      </p>
+
+      <p> Both type 1 and 2 players were largely successful at the game, though no players ever reached the fully-optimal ranking shown above.
+        Both tyes were most likely to change their rankings immediately after a round where they lost some points, but type 1 players appear to also be influenced
+        by the general probabilities being revealed, even when they recieved the higher value. Type 2 players were more likely to make large changes to their rankings, whereas type 1 players tend to shift just one or two at a time.
+      </p>
+
+      <p>Overall, these play patterns suggest a learning process which is both cognitive and reactive: players consider probabilities and general strategic principals, but also 
+        respond most readily when presented with an immediate loss. I also noted that many players presented significant aversion to the lowest payoffs. Even after identifying correct strategies elsewhere, they would isolate
+        the smallest payoffs in their rankings to avoid them. This likely occurs due to the payment structure of the experiment: people want to ensure they make at least a certain amount of money for their time.
+      </p>
+
+      <b>Conclusion</b>
+      
+      <P>Thank you for reading this far! This article serves as just a brief summary of some of the ideas captured in the broader research I conducted during my thesis.
+        If you want to read more of the background information or see any of the proofs, please follow: <a href="https://digitalcommons.lmu.edu/honors-thesis/240/" target="_blank">Adaptive Utility -- Digital Commons</a>.</P>
+
+      <P> For those of you who played the game, what was your method of choosing a strategy? Are you a responsive player or do you like to stick to your initial plan?
+      </P>
+
+      <p> Feel free to reach out if you have questions or more ideas on the topic!</p>
+
+    </main>
+  </div>
+  <div class="footer-bar">
+    <p>
+      Connect with me on 
+      <a href="https://www.linkedin.com/in/cameron-bellamoroso-a139371ba/" target="_blank">LinkedIn</a> |
+      Email: <a href="mailto:c.bellamoroso@gmail.com">c.bellamoroso@gmail.com</a>
+    </p>
+  </div>
+
+  <script>
+    const values = [
+  60, 110, 160, 210, 260, 310, 360, 410, 460,
+  510, 560, 610, 660, 710, 760, 810, 860, 910, 960
+];
+
+const probabilities = [
+  0.01, 0.01, 0.02, 0.02, 0.02, 0.02, 0.02, 0.025, 0.025,
+  0.03, 0.03, 0.03, 0.035, 0.065, 0.075, 0.085, 0.095, 0.18, 0.205
+];
+
+let score = 0;
+let missedOpportunities = 0;
+const winCounts = {};
+const pairHistory = [];
+
+function weightedRandomTwo() {
+  const cumulative = [];
+  probabilities.reduce((acc, prob, i) => {
+    cumulative[i] = acc + prob;
+    return cumulative[i];
+  }, 0);
+
+  function drawOne() {
+    const rand = Math.random();
+    for (let i = 0; i < cumulative.length; i++) {
+      if (rand < cumulative[i]) return values[i];
+    }
+    return values[values.length - 1]; // fallback
+  }
+
+  let first = drawOne();
+  let second;
+  do {
+    second = drawOne();
+  } while (second === first);
+
+  return [first, second];
+}
+
+function createValueElements() {
+  const container = document.getElementById('dollar-values');
+  container.innerHTML = '';
+  values.forEach(val => {
+    const div = document.createElement('div');
+    div.textContent = `${val}`;
+    div.className = 'draggable';
+    div.draggable = true;
+    div.dataset.value = val;
+    div.addEventListener('dragstart', (e) => {
+      e.dataTransfer.setData('text/plain', val);
+    });
+    container.appendChild(div);
+  });
+}
+
+function setupDropZones() {
+  const boxes = document.querySelectorAll('.rank-box');
+  boxes.forEach(box => {
+    box.addEventListener('dragover', (e) => e.preventDefault());
+    box.addEventListener('drop', (e) => {
+      e.preventDefault();
+      const value = e.dataTransfer.getData('text/plain');
+      const dragged = document.querySelector(`[data-value="${value}"]`);
+      box.appendChild(dragged);
+    });
+  });
+}
+
+function updateHistoryDisplay() {
+  const historyDiv = document.getElementById('history');
+   historyDiv.innerHTML = '<h3>History</h3>';
+
+  const winList = document.createElement('ul');
+  Object.entries(winCounts).sort((a, b) => a[0] - b[0]).forEach(([val, count]) => {
+    const li = document.createElement('li');
+    li.textContent = `${val}: ${count} time${count > 1 ? 's' : ''}`;
+    winList.appendChild(li);
+  });
+
+  const pairList = document.createElement('ul');
+  pairHistory.forEach((pair, idx) => {
+     const li = document.createElement('li');
+    // li.textContent = `Round ${idx + 1}: Chose between $${pair[0]} and $${pair[1]}`;
+    //pairList.appendChild(li);
+  });
+
+  historyDiv.appendChild(winList);
+  historyDiv.appendChild(document.createElement('hr'));
+  historyDiv.appendChild(pairList);
+}
+
+document.getElementById('submit-button').addEventListener('click', () => {
+  const rankings = {};
+  document.querySelectorAll('.rank-box').forEach(box => {
+    const rank = parseInt(box.dataset.rank);
+    const children = box.querySelectorAll('.draggable');
+    children.forEach(el => {
+      rankings[el.dataset.value] = rank;
+    });
+  });
+
+  const [a, b] = weightedRandomTwo();
+  const rankA = rankings[a] || 5;
+  const rankB = rankings[b] || 5;
+
+  let chosen;
+  let message;
+  if (rankA < rankB) {
+    chosen = a;
+    message = `You won: ${a} (chosen over ${b})`;
+  } else if (rankB < rankA) {
+    chosen = b;
+    message = `You won: ${b} (chosen over ${a})`;
+  } else {
+    chosen = Math.random() < 0.5 ? a : b;
+    const other = chosen === a ? b : a;
+    message = `The two chosen values were ranked the same, so ${chosen} was randomly chosen over ${other}`;
+  }
+
+  // Update score
+  score += chosen;
+  document.getElementById('score').textContent = `Score: ${score}`;
+
+// Track missed opportunity
+const missed = a + b - chosen;
+if (missed > chosen) {
+  missedOpportunities += missed;
+  document.getElementById('missed').textContent = `Missed Opportunities: ${missedOpportunities}`;
+}
+
+  // Record win count
+  winCounts[a] = (winCounts[a] || 0) + 1;
+  winCounts[b] = (winCounts[b] || 0) + 1;
+
+  // Record full pair history
+  pairHistory.push([a, b]);
+
+  // Show message
+  document.getElementById('result').textContent = message;
+
+  // Update history display
+  updateHistoryDisplay();
+});
+
+// Initial setup
+createValueElements();
+setupDropZones();
+
+  </script>
+
+  <style>
+    #game-container {
+      padding: 20px;
+      background-color: #f7f7f7;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+
+    #dollar-values {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .draggable {
+      padding: 10px;
+      background-color: #3498db;
+      color: white;
+      border-radius: 5px;
+      cursor: grab;
+    }
+
+    .boxes {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .rank-box {
+      flex: 1;
+      min-height: 100px;
+      border: 2px dashed #aaa;
+      border-radius: 5px;
+      padding: 10px;
+      background-color: #f0f0f0;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #2c3e50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #1a252f;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    #history {
+      margin-top: 20px;
+      font-size: 0.95rem;
+    }
+
+    #history h4 {
+      margin-bottom: 10px;
+    }
+  </style>
+</body>
+</html>
