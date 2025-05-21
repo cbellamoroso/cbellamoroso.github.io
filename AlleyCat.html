@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Alley Cat Dilemma</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    #game-container {
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.9);
+      border: 4px solid #244442;
+      border-radius: 8px;
+      margin-top: 20px;
+      display: flex;
+    }
+    .history-bar {
+      border-left: 3px solid #aaa;
+      padding-left: 10px;
+      margin-top: 20px;
+    }
+    .choice-buttons button {
+      padding: 10px 20px;
+      background-color: #f0ca79;
+      margin: 10px;
+      font-size: 1.01rem;
+    }
+    #result-message {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    .opponent-profile {
+      margin-left: 20px;
+      text-align: center;
+    }
+    .opponent-profile img {
+      width: 150px;
+      height: auto;
+      border-radius: 8px;
+    }
+    .opponent-name {
+      margin-top: 10px;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+    #play-again-btn {
+      display: none;
+      background-color: #f0ca79;
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <h1>Alley Cat Dilemma</h1>
+  </div>
+  <div class="container">
+    <aside class="sidebar">
+      <nav>
+        <a href="/index.html">Home</a>
+        <a href="/NLPArtifacts.html">NLP Artifacts</a>
+        <a href="/AdaptiveUtility.html">Adaptive Utility</a>
+        <a href="/AlleyCatGame.html">Alley Cat Game</a>
+      </nav>
+    </aside>
+    <main class="reader-area">
+      <h2>Welcome to the Alley Cat Game</h2>
+        
+        <p>In this game you play as an alley cat trying to enjoy a sunny day. Living on the street, cats need to be in tip top shape to 
+            survive. As we know, sleep is of utmost importance, but so is having a clean coat. Today you find yourself sunning yourself on a roof with another friendly(?) cat. Each hour (round), 
+            you can decide to either take a nap or groom the other cat. The other cat will decide between the same options.            
+        </p>
+
+        <p> Napping gives you two points and being groomed gives you 4 points! Choosing to groom doesn't give you points, but it might make the other cat more likely to groom you in the future. You will randomly be paired up
+            against another cat each time you play. Different cats have different personalities and will respond to your choices differently. Each game lasts a little over 7 rounds. Good luck!
+        </p>
+
+      <div id="game-container">
+        <div>
+          <div id="round-info">Game in progress...</div>
+          <div class="choice-buttons">
+            <button onclick="makeChoice('sleep')">Sleep (+2 for you)</button>
+            <button onclick="makeChoice('groom')">Groom (+4 for other cat)</button>
+          </div>
+          <div id="result-message"></div>
+          <div id="score">Your Score: 0 | Opponent Score: 0</div>
+          <div class="history-bar" id="history">
+            <h3>Round History</h3>
+            <ul id="history-list"></ul>
+          </div>
+        </div>
+        <div class="opponent-profile">
+          <img id="cat-image" src="" alt="Opponent Cat" />
+          <div class="opponent-name" id="cat-name">Name</div>
+          <button id="play-again-btn" onclick="initializeGame()">Play Again</button>
+        </div>
+      </div>
+      <p><b>Strategy and analysis</b></p>
+      
+        <p>The game you just played is an example of a classic repeated prisoners' dilemma game. In a single round, each player is best off if they sleep regardless
+            of what the other player chooses. Since each player makes their choose at the same time, they cannot know what the other player will choose. This creates 
+            classic dilemma where each player is incentived to cheat (sleep), which results in a worse overall outcome.
+        </p>
+
+        The reward structure for any one round looks like this:
+        <p></p>
+        <table border="1" style="border-collapse: collapse; text-align: center;">
+            <tr>
+                <th></th>
+                <th>Groom</th>
+                <th>Sleep</th>
+            </tr>
+            <tr>
+                <th>Groom</th>
+                <td>4, 4</td>
+                <td>0, 6</td>
+            </tr>
+            <tr>
+                <th>Sleep</th>
+                <td>6, 0</td>
+                <td>2, 2</td>
+            </tr>
+        </table>
+
+        <p>The key to the game comes from the fact that you play multiple rounds. Suddenly the optimal strategies change since
+            being nice in the current round may induce friendlier behavior from the opponent in future rounds. Likewise, sleeping now 
+            may make the other player not trust you to groom them in the future. </p>
+
+
+    </main>
+  </div>
+  <div class="footer-bar">
+    <p>
+      Connect with me on
+      <a href="https://www.linkedin.com/in/cameron-bellamoroso-a139371ba/" target="_blank">LinkedIn</a> |
+      Email: <a href="mailto:c.bellamoroso@gmail.com">c.bellamoroso@gmail.com</a>
+    </p>
+  </div>
+
+    <script>
+  const strategies = {
+    alwaysSleep: () => 'sleep',
+    alwaysGroom: () => 'groom',
+    titForTat: (history) => history.length ? history[history.length - 1].player : 'groom',
+    random: () => Math.random() < 0.5 ? 'sleep' : 'groom',
+    grimTrigger: (() => {
+      let defected = false;
+      return (history) => {
+        if (history.some(h => h.player === 'sleep')) defected = true;
+        return defected ? 'sleep' : 'groom';
+      };
+    })(),
+    titTitTat: (history) => {
+      const recent = history.slice(-2);
+      const sleepCount = recent.filter(h => h.player === 'sleep').length;
+      return sleepCount >= 2 ? 'sleep' : 'groom';
+    }
+  };
+
+  const catNames = ['Mittens', 'Whiskers', 'Shadow', 'Paws', 'Tuna', 'Pickle', 'Boots', 'Mocha', 'Snickers', 'Egg', 'Coco', 'Mochi', 'Pumpkin', 'Peanut', 'Marshmallow', 'Gizmo', 'Nibbles', 'Sprinkles'];
+  const catImages = ['Cat1.png', 'Cat2.png', 'Cat3.png', 'Cat4.png', 'Cat5.png', 'Cat6.png', 'Cat7.png', 'Cat8.png', 'Cat9.png', 'Cat10.png', 'Cat11.png', 'Cat12.png', 'Cat13.png', 'Cat14.png', 'Cat15.png', 'Cat16.png', 'Cat17.png', 'Cat18.png'];
+  
+
+  let currentRound, playerScore, opponentScore, roundsTotal, roundHistory, opponentStrategy, opponentDecision, opponentCatName;
+
+  function initializeGame() {
+    // Re-randomize for new game
+    roundsTotal = Math.floor(Math.random() * 5) + 8;
+    opponentStrategy = Object.keys(strategies)[Math.floor(Math.random() * Object.keys(strategies).length)];
+    opponentDecision = strategies[opponentStrategy];
+
+    opponentCatName = catNames[Math.floor(Math.random() * catNames.length)];
+    const opponentCatImage = catImages[Math.floor(Math.random() * catImages.length)];
+    document.getElementById('cat-name').textContent = opponentCatName;
+    document.getElementById('cat-image').src = `assets/${opponentCatImage}`;
+    document.querySelector(".choice-buttons button:nth-child(2)").textContent = `Groom ${opponentCatName} (+4 for ${opponentCatName})`;
+
+
+    currentRound = 0;
+    playerScore = 0;
+    opponentScore = 0;
+    roundHistory = [];
+
+    document.getElementById('round-info').textContent = `Round 1`;
+    document.getElementById('result-message').textContent = '';
+    document.getElementById('score').textContent = `Your Avg Score: 0 | ${opponentCatName} Avg Score: 0`;
+    document.getElementById('history-list').innerHTML = '';
+    document.querySelector('.choice-buttons').style.display = 'block';
+    document.getElementById('play-again-btn').style.display = 'none';
+  }
+
+  function makeChoice(playerChoice) {
+    if (currentRound >= roundsTotal) return;
+
+    const opponentChoice = opponentDecision(roundHistory);
+
+    if (playerChoice === 'sleep') playerScore += 2;
+    if (opponentChoice === 'sleep') opponentScore += 2;
+    if (playerChoice === 'groom') opponentScore += 4;
+    if (opponentChoice === 'groom') playerScore += 4;
+
+    roundHistory.push({ round: currentRound + 1, player: playerChoice, opponent: opponentChoice });
+    updateDisplay(playerChoice, opponentChoice);
+
+    currentRound++;
+
+    if (currentRound === roundsTotal) {
+      document.getElementById('round-info').textContent = `Game over! Final scores.`;
+      document.querySelector('.choice-buttons').style.display = 'none';
+      document.getElementById('play-again-btn').style.display = 'inline-block';
+    } else {
+      document.getElementById('round-info').textContent = `Round ${currentRound + 1}`;
+    }
+  }
+
+  function updateDisplay(playerChoice, opponentChoice) {
+    const avgPlayer = (playerScore / (currentRound + 1)).toFixed(2);
+    const avgOpponent = (opponentScore / (currentRound + 1)).toFixed(2);
+    document.getElementById('result-message').textContent = `You chose ${playerChoice}, ${opponentCatName} chose ${opponentChoice}`;
+    document.getElementById('score').textContent = `Your Avg Score: ${avgPlayer} | ${opponentCatName} Avg Score: ${avgOpponent}`;
+    const li = document.createElement('li');
+    li.textContent = `Round ${currentRound + 1}: You - ${playerChoice}, ${opponentCatName} - ${opponentChoice}`;
+    document.getElementById('history-list').appendChild(li);
+  }
+
+  // Start the game initially
+  initializeGame();
+</script>
+
+</body>
+</html>
