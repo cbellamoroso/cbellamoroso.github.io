@@ -57,6 +57,7 @@
   </div>
   <div class="container">
     <aside class="sidebar">
+      <h1><u>Navigation:</u></h1>
       <nav>
         <a href="/index.html">Home</a>
         <a href="/AdaptiveUtility.html">Adaptive Utility</a>
@@ -65,6 +66,7 @@
       </nav>
     </aside>
     <main class="reader-area">
+      <small style="font-size: 0.9em; font-style: italic;">Last updated: June 4, 2025</small>
       <h2>Welcome to the Alley Cat Game</h2>
         
         <p>In this game you play as an alley cat trying to enjoy a sunny day. Living on the street, cats need to be in tip top shape to 
@@ -125,9 +127,67 @@
 
         <p>The key to the game comes from the fact that you play multiple rounds. Suddenly the optimal strategies change since
             being nice in the current round may induce friendlier behavior from the opponent in future rounds. Likewise, sleeping now 
-            may make the other player not trust you to groom them in the future. </p>
+            may make the other player not trust you to groom them in the future. If you choose to always sleep (the optimal choice in the 1-round version),
+          then the other player will also always sleep, resulting in two points fewer per round than if you both groomed all the time.</p>
+
+          <p>The goal for each player in the repeated game should then involve sleeping as often as possible without causing the other player to also sleep. 
+            The implementation of this strategy depends on the personality of your opponent: some opponents may be more forgiving than others. Similarly, we need to decide how
+          forgiving we want to be. We want to discourage our opponents from sleeping, but if we go too hard then we might end up in the everyone always sleeps outcomes, which is not ideal.  </p>
 
 
+          <p> This experiment closely follows the experiment run by Robert Axelrod (The Evolution of Cooperation, 1984). He created a game of similar strategic design to the cat game above (though played over many more rounds)  and invited
+            other economists to submit algorithms that would play the game against eachother. I programmed several of these algorithms into the game you just played:
+          
+          
+          <table border="1" style="border-collapse: collapse; text-align: left; margin-top: 1em;">
+            <tr>
+              <th>Strategy Name</th>
+              <th>Description</th>
+            </tr>
+            <tr>
+              <td>Sleepy</td>
+              <td>This cat always sleeps.</td>
+            </tr>
+            <tr>
+              <td>Groomy</td>
+              <td>This cat always grooms.</td>
+            </tr>
+            <tr>
+              <td>Random</td>
+              <td>This cat randomly chooses between sleeping and grooming each round.</td>
+            </tr>
+            <tr>
+              <td>Tit For Tat</td>
+              <td>This cat starts by grooming, then just copies your move from the previous round.</td>
+            </tr>
+            
+            <tr>
+              <td>Grim</td>
+              <td>This cat grooms until you sleep once, then sleeps for the rest of the game as punishment.</td>
+            </tr>
+            <tr>
+              <td>Tit Tit Tat</td>
+              <td>A more forgiving copy-cat, it only sleeps if you have slept in both of the last two rounds.</td>
+            </tr>
+          </table>
+          
+                 
+          </p>
+          <p> Of course, none of these algorithms behave like a human would, but they do provide a starting point to develop some strategy and compare options.
+            A succesful strategy needs to account for different levels of opponent vindictiveness from none (sleepy, groomy, random), to maximal (grim). 
+            We can code increasingly complicated algorithms that change their behavior over time as well. For example, follow one of the cooperative strategies above, but with
+            little exploratory tests here and there to see how our opponent reacts to us sleeping. 
+          </p>
+
+          <p> Axelrod identified several important attributes to a winning strategy: start out generous, react to opponent's moves both positively and negatively,
+            be forgiving, and to present an understandable strategy to your opponent. If your opponent thinks you are playing randomly or just cannot learn how to get you to groom them, they might just give up and go to sleep.
+          </p>
+
+
+          <b>Conclusion</b>
+          <p>Overall, multiplayer games present interesting scenarios where strategies evolve reactively over time. You might be able to come up with a simple strategy that outperforms the above algorithms -- if so, let me know and I will code it in!
+            My next update to this post will include a machine-learning trained bot trained on a wider array of algorithms that you can play against. Thanks for reading!
+          </p>
     </main>
   </div>
   <div class="footer-bar">
